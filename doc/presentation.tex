@@ -1,0 +1,91 @@
+\documentclass[unicode]{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage{amssymb, amsmath, hyperref}
+\usepackage[main=russian,english]{babel}
+
+\title{Аутентификация в сети по средством PEAP}
+\author{Сергей Синяк}
+\date{29.10.2016}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\section{Задача}
+\begin{frame}
+  Имеется wpa-eap хотспот с клиентской аутентификацией
+  по средством PEAP. Требуется устранить проблему подключения
+  через wpa\_supplicant v2.5 на Arch Linux.
+\end{frame}
+
+\section{Этапы решения}
+\begin{frame}
+  1) В Апреле 2016 пытался собирать логи и обсуждать их с разработчиками
+    wpa\_supplicant
+
+    https://bbs.archlinux.org/viewtopic.php?id=211619 ---
+
+    [SOLVED] eduroam issue (wpa\_supplicant rollback)
+
+    https://bbs.archlinux.org/viewtopic.php?id=211842 ---
+
+    wpa\_supplicant, eduroam nl80211: set\_key failed; err=-22 Inval
+
+    http://lists.infradead.org/pipermail/hostap/2016-April/035548.html ---
+
+    eduroam disconnects with reason=3 (WPA-EAP, PEAP, MSCHAPv2)
+\end{frame}
+
+\begin{frame}
+  2) С конца авгутса 2016 решил реализовать эксплоит для PEAPv0,v1
+    на базе публикации:
+
+    "Man-in-the-Middle in Tunneled Authentication Protocols"
+    от 2008 года ---
+
+    https://eprint.iacr.org/2002/163.pdf
+\end{frame}
+
+\section{Источники информации}
+\begin{frame}
+  1) Исходный код hostap
+
+  http://w1.fi/cgit/hostap/
+
+  2) Книга про TLS и SSL
+
+  "Bulletproof SSL and TLS"\ by Ivan Ristic, 2014
+\end{frame}
+
+\section{План}
+\begin{frame}
+    1) Разобраться в работе протокола PEAP и его применении в WPA-EAP
+
+    2) Реализовать тестовую конфигурацию сервер-клиент
+      на базе hostapd и wpa\_supplicant
+
+    3) Настроить уязвимую конфигурацию и получить подтверждение этого
+      в виде логов
+
+    4) Реализовать MITM сервер, который компрометирует TLS в составе PEAP,
+      и пробрасывает трафик протокола MSCHAPv2 между сторонами
+\end{frame}
+
+\section{Что удалось}
+\begin{frame}
+  1) Расширить знания про TLS, SSL, PKI
+
+  2) Получить тестовую реализацию сервер-клиент в виде одного
+    C приложения
+\end{frame}
+
+\end{document}
