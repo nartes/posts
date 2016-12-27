@@ -1,7 +1,12 @@
 all: presentation report
 
-presentation:
-	pdflatex --output-directory=build/ doc/presentation.tex
+LATEX := pdflatex --output-directory=build/
 
-report:
-	pdflatex --output-directory=build/ doc/report.tex
+presentation: doc/presentation.tex
+	$(LATEX) doc/presentation.tex
+
+report: doc/report.tex
+	$(LATEX) doc/report.tex
+
+mitm-post: doc/mitm-post.tex
+	$(LATEX) doc/mitm-post.tex
