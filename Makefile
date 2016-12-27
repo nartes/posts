@@ -10,3 +10,9 @@ report: doc/report.tex
 
 mitm-post: doc/mitm-post.tex
 	$(LATEX) doc/mitm-post.tex
+
+mitm-post-ru: doc/mitm-post-ru.tex
+	$(LATEX) doc/mitm-post-ru.tex
+
+clean:
+	rm -fr build/*
